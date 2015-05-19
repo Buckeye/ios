@@ -18,15 +18,15 @@
 #define k_year 2015
 
 //URLs Setting
-#define k_help_url @"http://owncloud.com/mobile/help"
-#define k_recomended_url @"http://owncloud.com/mobile/recommend"
-#define k_send_feedback @"http://owncloud.com/mobile/feedback"
+#define k_help_url @"http://www.telesystem.us/buckeye-support/help-documents"
+#define k_recomended_url @""
+#define k_send_feedback @"http://www.telesystem.us/buckeye-support/feedback"
 
 //Hide url server
-#define k_hide_url_server NO
+#define k_hide_url_server YES
 
 //Set a default url server. It must be obligaroy if we hide the url server (#define k_hide_url_server YES)
-#define k_default_url_server @""
+#define k_default_url_server @"https://sharedrive.mytelesystem.com"
 
 //Show multiaccount or disconnect
 #define k_multiaccount_available YES
@@ -51,12 +51,12 @@
 #define k_oauth_client_id @"" //the same in k_oauth_login
 
 //Mail feedback
-#define k_mail_feedback @"apps@owncloud.com"
+#define k_mail_feedback @""
 
 //Social
-#define k_download_url_short @"http://bit.ly/13haDjE"
-#define k_download_url_long @"https://itunes.apple.com/us/app/owncloud/id543672169?mt=8"
-#define k_twitter_user @"@ownCloud"
+#define k_download_url_short @""
+#define k_download_url_long @""
+#define k_twitter_user @""
 
 //Minimun files until show letters on separators
 #define k_minimun_files_to_show_separators 20
@@ -125,7 +125,7 @@
 
 //Show the help link on login
 #define k_is_shown_help_link_on_login YES
-#define k_url_link_on_login @"https://owncloud.com/mobile/new"
+#define k_url_link_on_login @"http://www.telesystem.us/buckeye-support/help-documents"
 
 //User-Agent
 #define k_user_agent @"Mozilla/5.0 (iOS) ownCloud-iOS/"
