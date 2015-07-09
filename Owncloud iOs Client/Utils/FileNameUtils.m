@@ -221,66 +221,58 @@
 
 
 /*
- * Method that check the file name or folder name to find forbiden characters
- * This is the forbiden characters in server: "\", "/","<",">",":",""","|","?","*"
+ * Method that check the file name or folder name to find forbidden characters
+ * This is the forbidden characters in server: "\", "/","<",">",":",""","|","?","*"
  * @fileName -> file name
+ *
+ * @isFCSupported -> From ownCloud 8.1 the forbidden characters are controller by the server except the '/'
  */
-+ (BOOL)isForbidenCharactersInFileName:(NSString*)fileName{
-    BOOL thereAreForbidenCharacters=NO;
-    
-    
++ (BOOL) isForbiddenCharactersInFileName:(NSString*)fileName withForbiddenCharactersSupported:(BOOL)isFCSupported{
+    BOOL thereAreForbiddenCharacters = NO;
     
     //Check the filename
-    for(int i =0 ;i<[fileName length]; i++) {
+    for(NSInteger i = 0 ;i<[fileName length]; i++) {
         
         if ([fileName characterAtIndex:i]=='/'){
-            thereAreForbidenCharacters=YES;
-        }
-        if ([fileName characterAtIndex:i]=='\\'){
-            thereAreForbidenCharacters=YES;
+            thereAreForbiddenCharacters = YES;
         }
         
-        if ([fileName characterAtIndex:i]=='<'){
-            thereAreForbidenCharacters=YES;
+        if (!isFCSupported) {
+            
+            if ([fileName characterAtIndex:i] == '\\'){
+                thereAreForbiddenCharacters = YES;
+            }
+            if ([fileName characterAtIndex:i] == '<'){
+                thereAreForbiddenCharacters = YES;
+            }
+            if ([fileName characterAtIndex:i] == '>'){
+                thereAreForbiddenCharacters = YES;
+            }
+            if ([fileName characterAtIndex:i] == '"'){
+                thereAreForbiddenCharacters = YES;
+            }
+            if ([fileName characterAtIndex:i] == ','){
+                thereAreForbiddenCharacters = YES;
+            }
+            if ([fileName characterAtIndex:i] == ':'){
+                thereAreForbiddenCharacters = YES;
+            }
+            if ([fileName characterAtIndex:i] == '|'){
+                thereAreForbiddenCharacters = YES;
+            }
+            if ([fileName characterAtIndex:i] == '?'){
+                thereAreForbiddenCharacters = YES;
+            }
+            if ([fileName characterAtIndex:i] == '*'){
+                thereAreForbiddenCharacters = YES;
+            }
         }
-        if ([fileName characterAtIndex:i]=='>'){
-            thereAreForbidenCharacters=YES;
-        }
-        if ([fileName characterAtIndex:i]=='"'){
-            thereAreForbidenCharacters=YES;
-        }
-        if ([fileName characterAtIndex:i]==','){
-            thereAreForbidenCharacters=YES;
-        }
-        if ([fileName characterAtIndex:i]==':'){
-            thereAreForbidenCharacters=YES;
-        }
-        if ([fileName characterAtIndex:i]=='|'){
-            thereAreForbidenCharacters=YES;
-        }
-        if ([fileName characterAtIndex:i]=='?'){
-            thereAreForbidenCharacters=YES;
-        }
-        if ([fileName characterAtIndex:i]=='*'){
-            thereAreForbidenCharacters=YES;
-        }
-        
         
     }
     
-    return thereAreForbidenCharacters;
+    return thereAreForbiddenCharacters;
 }
 
-+ (NSString*) getUrlServerWithoutHttpOrHttps:(NSString*) url {
-    
-    if ([[url lowercaseString] hasPrefix:@"http://"]) {
-        url = [url substringFromIndex:7];
-    } else if ([[url lowercaseString] hasPrefix:@"https://"]) {
-        url = [url substringFromIndex:8];
-    }
-    
-    return url;
-}
 
 /*
  * This method check and url and look for a saml fragment
@@ -556,5 +548,6 @@
     return output;
     
 }
+
 
 @end

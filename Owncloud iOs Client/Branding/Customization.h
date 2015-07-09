@@ -129,3 +129,9 @@
 
 //User-Agent
 #define k_user_agent @"Mozilla/5.0 (iOS) ownCloud-iOS/"
+
+//Enable/Disable Background uploads and download (NSURLSession or NSOperation)
+#define k_is_background_active YES
+
+//Hide the share options
+#define k_hide_share_options NO

@@ -228,7 +228,7 @@
         
         FileDto *fileDto = (FileDto*)[notification object];
         
-        NSString *path = [UtilsDtos getDBFilePathOfFileDtoFilePath:fileDto.filePath ofUserDto:app.activeUser];
+        NSString *path = [UtilsUrls getFilePathOnDBByFilePathOnFileDto:fileDto.filePath andUser:app.activeUser];
         
         path = [NSString stringWithFormat:@"/%@%@", path, fileDto.fileName];
         OCSharedDto *sharedDto = [ManageSharesDB getSharedEqualWithFileDtoPath:path];
@@ -609,7 +609,7 @@
    [ManageFilesDB updateEtagOfFileDtoByid:parentDto.idFile andNewEtag:0];
     
     //Update the final file Path to create the File
-    finalFilePath = [NSString stringWithFormat:@"%@%@", [UtilsDtos getDBFilePathOfFileDtoFilePath:parentDto.filePath ofUserDto:app.activeUser], parentDto.fileName];
+    finalFilePath = [NSString stringWithFormat:@"%@%@", [UtilsUrls getFilePathOnDBByFilePathOnFileDto:parentDto.filePath andUser:app.activeUser], parentDto.fileName];
     
     //Loop the not catched sub-paths in order to create this in DB and File System
     for (NSString *subPath in notCatchedPaths) {
@@ -1120,20 +1120,30 @@
 
 - (NSArray *)setSwipeLeftButtons
 {
-    //Share gray button
-    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    //Check the share options should be presented
+    if (k_hide_share_options) {
+        
+        return nil;
+        
+    }else{
+        
+        //Share gray button
+        NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+        
+        
+        [rightUtilityButtons sw_addUtilityTwoLinesButtonWithColor:
+         [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
+                                                            title:NSLocalizedString(@"share_link_long_press", nil)];
+        
+        //UnShare red button
+        [rightUtilityButtons sw_addUtilityTwoLinesButtonWithColor:
+         [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
+                                                            title:NSLocalizedString(@"unshare_link", nil)];
+        
+        return rightUtilityButtons;
+        
+    }
     
-    
-    [rightUtilityButtons sw_addUtilityTwoLinesButtonWithColor:
-     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
-                                                        title:NSLocalizedString(@"share_link_long_press", nil)];
-    
-    //UnShare red button
-    [rightUtilityButtons sw_addUtilityTwoLinesButtonWithColor:
-     [UIColor colorWithRed:1.0f green:0.231f blue:0.188 alpha:1.0f]
-                                                        title:NSLocalizedString(@"unshare_link", nil)];
-    
-    return rightUtilityButtons;
 }
 
 #pragma mark - SWTableViewDelegate

@@ -364,7 +364,7 @@
 #ifdef CONTAINER_APP
     sharedCommunication = [AppDelegate sharedOCCommunication];
 #elif SHARE_IN
-    sharedCommunication = [Managers sharedOCCommunication];
+    sharedCommunication = Managers.sharedOCCommunication;
 #else
     sharedCommunication = [DocumentPickerViewController sharedOCCommunication];
 #endif
@@ -380,7 +380,7 @@
     
     [sharedCommunication setUserAgent:[UtilsUrls getUserAgent]];
     
-    NSString *remotePath = [UtilsDtos getRemoteUrlByFile:file andUserDto:self.user];
+    NSString *remotePath = [UtilsUrls getFullRemoteServerFilePathByFile:file andUser:self.user];
     remotePath = [remotePath stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     [sharedCommunication readFolder:remotePath onCommunication:sharedCommunication successRequest:^(NSHTTPURLResponse *response, NSArray *items, NSString *redirectedServer) {
@@ -561,8 +561,6 @@
 #ifdef CONTAINER_APP
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:message message:@"" delegate:nil cancelButtonTitle:NSLocalizedString(@"ok", nil) otherButtonTitles:nil, nil];
         [alertView show];
-        
-        [self showEditAccount];
 #endif
         
     }else{
@@ -576,7 +574,7 @@
                              style:UIAlertActionStyleDefault
                              handler:^(UIAlertAction * action)
                              {
-                                    [self showEditAccount];
+                                 
                              }];
         [alert addAction:ok];
         
@@ -614,6 +612,8 @@
     } else {
        [self showError:NSLocalizedString(@"error_login_message", nil)];
     }
+    
+    [self showEditAccount];
 }
 
 #pragma mark - Pull Refresh
@@ -674,7 +674,7 @@
 #ifdef CONTAINER_APP
     sharedCommunication = [AppDelegate sharedOCCommunication];
 #elif SHARE_IN
-    sharedCommunication = [Managers sharedOCCommunication];
+    sharedCommunication = Managers.sharedOCCommunication;
 #else
     sharedCommunication = [DocumentPickerViewController sharedOCCommunication];
 #endif
@@ -691,7 +691,7 @@
         
         [sharedCommunication setUserAgent:[UtilsUrls getUserAgent]];
         
-        NSString *remotePath = [UtilsDtos getRemoteUrlByFile:self.currentFolder andUserDto:self.user];
+        NSString *remotePath = [UtilsUrls getFullRemoteServerFilePathByFile:self.currentFolder andUser:self.user];
         remotePath = [remotePath stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
         [sharedCommunication readFile:remotePath onCommunication:sharedCommunication successRequest:^(NSHTTPURLResponse *response, NSArray *items, NSString *redirectedServer) {

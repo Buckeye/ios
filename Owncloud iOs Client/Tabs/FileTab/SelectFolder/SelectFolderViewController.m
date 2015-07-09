@@ -246,7 +246,7 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    NSString *remotePath = [UtilsDtos getRemoteUrlByFile:self.currentFolder andUserDto:self.user];
+    NSString *remotePath = [UtilsUrls getFullRemoteServerFilePathByFile:self.currentFolder andUser:self.user];
     
     [(SelectFolderNavigation*)self.parent selectFolder:remotePath];
 
@@ -350,15 +350,8 @@
  */
 -(void) newFolderSaveClicked:(NSString*)name {
     
-    //Check if the folder name has "/"
-    BOOL thereAreForbidenCharacters = NO;
-    for(int i = 0 ;i < [name length]; i++) {
-        if ([name characterAtIndex:i] == '/'){
-            thereAreForbidenCharacters = YES;
-        }
-    }
-    if (!thereAreForbidenCharacters) {
-        
+    //Check here if the user introduce a / character
+    if (![FileNameUtils isForbiddenCharactersInFileName:name withForbiddenCharactersSupported:[ManageUsersDB hasTheServerOfTheActiveUserForbiddenCharactersSupport]]){
         //Check if exist a folder with the same name
         if ([self checkForSameName:name] == NO) {
             
@@ -366,7 +359,7 @@
             UserDto *activeUser = nil;
             
 #ifdef SHARE_IN
-            communication = [Managers sharedOCCommunication];
+            communication = Managers.sharedOCCommunication;
             activeUser = [ManageUsersDB getActiveUser];
             [[Managers sharedOCCommunication] setUserAgent:[UtilsUrls getUserAgent]];
 #else
@@ -376,10 +369,10 @@
             [[AppDelegate sharedOCCommunication] setUserAgent:[UtilsUrls getUserAgent]];
 #endif
             
-            NSString *remotePath = [UtilsDtos getRemoteUrlByFile:self.currentFolder andUserDto:self.user];
-            
+            NSString *remotePath = [UtilsUrls getFullRemoteServerFilePathByFile:self.currentFolder andUser:self.user];
+
             NSString *newURL = [NSString stringWithFormat:@"%@%@",remotePath,[name encodeString:NSUTF8StringEncoding]];
-            NSString *rootPath = [UtilsDtos getDbBFilePathFromFullFilePath:newURL andUser:activeUser];
+            NSString *rootPath = [UtilsUrls getFilePathOnDBByFullPath:newURL andUser:activeUser];
             
             //Set the right credentials
             if (k_is_sso_active) {
@@ -392,7 +385,8 @@
             
             NSString *pathOfNewFolder = [newURL stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             
-            [communication createFolder:pathOfNewFolder onCommunication:communication successRequest:^(NSHTTPURLResponse *response, NSString *redirectedServer) {
+            [communication createFolder:pathOfNewFolder onCommunication:communication withForbiddenCharactersSupported:[ManageUsersDB hasTheServerOfTheActiveUserForbiddenCharactersSupport] successRequest:^(NSHTTPURLResponse *response, NSString *redirectedServer) {
+                
                 DLog(@"Folder created");
                 BOOL isSamlCredentialsError=NO;
                 
@@ -405,10 +399,8 @@
                     }
                 }
                 if (!isSamlCredentialsError) {
-                
                     //Obtain the path where the folder will be created in the file system
                     NSString *currentLocalFileToCreateFolder = [NSString stringWithFormat:@"%@/%ld/%@",[UtilsUrls getOwnCloudFilePath],(long)activeUser.idUser,[rootPath stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-
                     
                     DLog(@"Name of the folder: %@ to create in: %@",name, currentLocalFileToCreateFolder);
                     
@@ -421,13 +413,16 @@
                 [self endLoading];
                 DLog(@"Operation error: %ld", (long)response.statusCode);
                 [self.manageNetworkErrors manageErrorHttp:response.statusCode andErrorConnection:error andUser:self.user];
-
+                
             } errorBeforeRequest:^(NSError *error) {
                 if (error.code == OCErrorForbidenCharacters) {
                     [self endLoading];
                     DLog(@"The folder have problematic characters");
                     
-                    [self showError:NSLocalizedString(@"forbiden_characters", nil)];
+                    NSString *msg = nil;
+                    msg = NSLocalizedString(@"forbidden_characters_from_server", nil);
+                    
+                    [self showError:msg];
                     
                 }
             }];
@@ -437,15 +432,21 @@
             [self showError:NSLocalizedString(@"folder_exist", nil)];
             
         }
-    } else {
-        [self endLoading];
-        DLog(@"The folder have problematic characters");
-        [self showError:NSLocalizedString(@"forbiden_characters", nil)];
+ 
+    }else{
+         [self endLoading];
+        
+        NSString *msg = nil;
+        msg = NSLocalizedString(@"forbidden_characters_from_server", nil);
+        
+        [self showError:msg];
     }
+    
+    
 }
 
 
-#pragma mark - UITableViewDelegate 
+#pragma mark - UITableViewDelegate
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
