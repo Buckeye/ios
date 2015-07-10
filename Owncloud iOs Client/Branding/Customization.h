@@ -128,7 +128,7 @@
 #define k_url_link_on_login @"http://www.telesystem.us/buckeye-support/help-documents"
 
 //User-Agent
-#define k_user_agent @"Mozilla/5.0 (iOS) ownCloud-iOS/"
+#define k_user_agent @"Mozilla/5.0 (iOS) telesystem-sharedrive-iOS/"
 
 //Enable/Disable Background uploads and download (NSURLSession or NSOperation)
 #define k_is_background_active YES
