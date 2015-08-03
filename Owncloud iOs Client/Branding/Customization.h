@@ -51,7 +51,7 @@
 #define k_oauth_client_id @"" //the same in k_oauth_login
 
 //Mail feedback
-#define k_mail_feedback @""
+#define k_mail_feedback @"businessreps@telesystem.us"
 
 //Social
 #define k_download_url_short @""

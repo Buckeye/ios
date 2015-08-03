@@ -71,5 +71,5 @@
 #define k_path_instant_upload @"InstantUpload"
 
 //App name
-#define k_app_name @"ownCloud"
+#define k_app_name @"Share Drive"
 

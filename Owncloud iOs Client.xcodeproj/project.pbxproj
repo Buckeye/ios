@@ -3107,6 +3107,7 @@
 				1324297515ADBB3700DF823E /* Frameworks */,
 				1324297615ADBB3700DF823E /* Resources */,
 				EAB0AB5919ED356A00764C31 /* Embed App Extensions */,
+				2DDFA3731B60276500F5A4D1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3149,6 +3150,7 @@
 				EA6606911AA767F700BA2C65 /* Sources */,
 				EA6606921AA767F700BA2C65 /* Frameworks */,
 				EA6606931AA767F700BA2C65 /* Resources */,
+				2DDFA3761B666F0E00F5A4D1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3167,6 +3169,7 @@
 				EAB0AB2E19ED356A00764C31 /* Sources */,
 				EAB0AB2F19ED356A00764C31 /* Frameworks */,
 				EAB0AB3019ED356A00764C31 /* Resources */,
+				2DDFA3741B666EF600F5A4D1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3185,6 +3188,7 @@
 				EAB0AB3C19ED356A00764C31 /* Sources */,
 				EAB0AB3D19ED356A00764C31 /* Frameworks */,
 				EAB0AB3E19ED356A00764C31 /* Resources */,
+				2DDFA3751B666F0300F5A4D1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3827,6 +3831,58 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		2DDFA3731B60276500F5A4D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
+		};
+		2DDFA3741B666EF600F5A4D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
+		};
+		2DDFA3751B666F0300F5A4D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
+		};
+		2DDFA3761B666F0E00F5A4D1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
