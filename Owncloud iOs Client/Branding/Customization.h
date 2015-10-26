@@ -23,7 +23,7 @@
 #define k_send_feedback @"http://www.telesystem.us/buckeye-support/feedback"
 
 //Hide url server
-#define k_hide_url_server YES
+#define k_hide_url_server NO
 
 //Set a default url server. It must be obligaroy if we hide the url server (#define k_hide_url_server YES)
 #define k_default_url_server @"https://sharedrive.mytelesystem.com"
@@ -135,3 +135,6 @@
 
 //Hide the share options
 #define k_hide_share_options NO
+
+//Help Guide init app
+#define k_show_main_help_guide YES
